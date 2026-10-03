@@ -106,7 +106,7 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:bold;cursor:poin
         <thead><tr>
           <th>STT</th><th>Ban</th><th>Cấp bậc</th><th>Họ và tên</th>
           <th>Hội thao</th><th>Phép</th><th>Viện</th><th>Công tác</th>
-          <th>Nghỉ tranh thủ</th><th>Mới gác hôm trước</th><th>Lịch lái xe ngày hôm sau</th><th class="no-print">Xóa</th>
+          <th>Nghỉ tranh thủ</th><th>Mới gác hôm trước</th><th>TB cổng/TB phó</th><th>Lịch lái xe ngày hôm sau</th><th class="no-print">Xóa</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -132,6 +132,7 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:bold;cursor:poin
       <div>• Nếu thiếu người, có thể bố trí 1 đồng chí <strong>gác 2 ca không liên tiếp</strong> trong cùng ngày.</div>
       <div>• Hội thao: chỉ ca đầu hoặc ca cuối. Lái xe ngày hôm sau: chỉ ca 1–4.</div>
       <div>• Phép, Viện, Công tác: không cắt gác.</div>
+      <div>• Đồng chí được đánh dấu <strong>TB cổng/TB phó</strong>: không cắt gác.</div>
       <div>• Nghỉ tranh thủ: thứ 6 chỉ cắt Ca 1–3; tuyệt đối không Ca 4–7. Thứ 7 không cắt ca nào. Chủ nhật không Ca 1–4 và ưu tiên nhóm này ở Ca 5–7.</div>
       <div>• Không để một người gác ca 6 hoặc 7 liên tục hai ngày; hạn chế gác 3 ngày liên tục.</div>
       <div>• Cắt xen kẽ quân số giữa các Ban; Ban Hành chính có quân số lớn nên được phân nhiều ca hơn tương đối.</div>
@@ -301,7 +302,7 @@ function renderPeople(){
   const row=document.createElement("tr");
   row.innerHTML=`<td>${i+1}</td><td class="ban">${esc(p.ban)}</td><td class="rank">${esc(p.rank)}</td><td class="name">${esc(p.name)}</td>
   ${check(i,"hoi","Hội thao",s.hoi)}${check(i,"phep","Phép",s.phep)}${check(i,"vien","Viện",s.vien)}${check(i,"ct","Công tác",s.ct)}
-  ${check(i,"nt","Nghỉ tranh thủ",s.nt)}${check(i,"moi","Mới gác hôm trước",s.moi)}
+  ${check(i,"nt","Nghỉ tranh thủ",s.nt)}${check(i,"moi","Mới gác hôm trước",s.moi)}${check(i,"tbCong","TB cổng/TB phó",s.tbCong)}
   ${drive?check(i,"drive","Có lịch Lái xe<br>ngày hôm sau",s.drive):"<td>—</td>"}
   <td class="no-print"><button class="danger" style="padding:5px 8px" onclick="removePerson(${i})">X</button></td>`;
   tb.appendChild(row);
@@ -344,7 +345,7 @@ function lastDays(p,date){
  for(let n=1;n<=5;n++)if(hadGuard(p,daysAgo(date,n)))return n;return 6;
 }
 function isUnavailable(i){
- const s=statuses[i]||{};return s.phep||s.vien||s.ct;
+ const s=statuses[i]||{};return s.phep||s.vien||s.ct||s.tbCong;
 }
 function friday(date){return new Date(date+"T12:00:00").getDay()===5}
 function saturday(date){return new Date(date+"T12:00:00").getDay()===6}
